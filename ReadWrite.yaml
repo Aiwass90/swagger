@@ -1,0 +1,2124 @@
+openapi: 3.0.3
+info:
+  title: ReadWrite
+  description: Commercial Work Order Activity for producers - Work Order Domain
+  contact:
+    email: work_order_domain_team@enel.com
+  version: 1.0.0
+externalDocs:
+  description: uS description
+  url: 'https://confluence.springlab.enel.com/display/INDPLTDEC/bxcommworequestprod'
+servers:
+  - url: 'https://xxx.yyy.zzz/bxcommworequestprod/v1.0'
+  - url: 'http://xxx.yyy.zzz/bxcommworequestprod/v1.0'
+security:
+  - platformsecurity: []
+tags:
+  - name: prod-workorder-activities
+    description: Work Order Activity-related APIs
+paths:
+  '/{tenant}/v1.0/prod-workorder-activities/commercials/request':
+    post:
+      tags:
+        - prod-workorder-activities
+      summary: 'Requests the creation of a producer related commercial work order activity'
+      description: 'Requests the creation of a producer related commercial work order activity'
+      operationId: WorkOrderSubmission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkOrderSubmissionRequest'
+      parameters:
+        - name: tenant
+          in: path
+          description: Tenant ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          description: bad request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Response'
+        '404':
+          description: resource not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Response'
+        '500':
+          description: internal server error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Response'
+
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    WorkOrderSubmissionRequest:
+      type: object
+      properties:
+        Header:
+          $ref: '#/components/schemas/Header'
+        Payload:
+          $ref: '#/components/schemas/Payload'
+      required:
+       - Header
+       - Payload
+    Header:
+      type: object
+      properties:
+        messageId:
+          type: string
+        source:
+          type: string
+        correlationId:
+          type: string
+        target:
+          type: string
+        verb:
+          type: string
+        noun:
+          type: string
+        codTenant:
+          type: string
+        revision:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - source
+        - target
+        - verb
+        - noun
+        - revision
+        - timestamp
+    Payload:
+      type: object
+      properties:
+        WorkOrderRequest:
+          $ref: '#/components/schemas/WorkOrderRequest'
+        WorkOrder:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/WorkOrder'
+        Performance:
+          $ref: '#/components/schemas/Performance'
+        Supply:
+          $ref: '#/components/schemas/Supply'
+        SupplyAddress:
+          $ref: '#/components/schemas/SupplyAddress'
+        Contract:
+          $ref: '#/components/schemas/Contract'
+        DisplayEnable:
+          $ref: '#/components/schemas/DisplayEnable'
+        DisplayConfiguration:
+          $ref: '#/components/schemas/DisplayConfiguration'
+        WeeklyTariff:
+          $ref: '#/components/schemas/WeeklyTariff'
+        Customer:
+          $ref: '#/components/schemas/Customer'
+        CustomerAddress:
+          $ref: '#/components/schemas/CustomerAddress'
+        EstimateLot:
+          $ref: '#/components/schemas/EstimateLot'
+        EstimateItem:
+          type: array
+          items:
+            $ref: '#/components/schemas/EstimateItem'
+        Producer:
+          $ref: '#/components/schemas/Producer'
+        ProducerAddress:
+          $ref: '#/components/schemas/ProducerAddress'
+        ProducerAgent:
+          $ref: '#/components/schemas/ProducerAgent'
+        ProducerAgentAddress:
+          $ref: '#/components/schemas/ProducerAgentAddress'
+        ProductionPlant:
+          $ref: '#/components/schemas/ProductionPlant'
+        ProductionPlantAddress:
+          $ref: '#/components/schemas/ProductionPlantAddress'
+        ProductionSection:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionSection'
+        ProductionUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionUnit'
+        ProductionSspc:
+          $ref: '#/components/schemas/ProductionSspc'
+        Periods:
+          type: array
+          items:
+            $ref: '#/components/schemas/Period'
+      required:
+       - WorkOrderRequest
+       - WorkOrder
+    WorkOrderRequest:
+      type: object
+      properties:
+        idRequest:
+          type: string
+          description: 'Identificativo della richiesta'
+        idRequestDossier:
+          type: string
+          description: 'Identificativo della pratica commerciale'
+        requestSystem:
+          type: string
+          description: 'Sistema richiedente'
+          enum:
+            - FOUR
+            - CUATRO
+            - ECO
+      required:
+        - idRequest
+    WorkOrder:
+      type: object
+      properties:
+        Activity:
+          $ref: '#/components/schemas/Activity'
+        FourItaly:
+          $ref: '#/components/schemas/FourItaly'
+        Delegate:
+          $ref: '#/components/schemas/Delegate'
+        MeasurementPoint:
+          $ref: '#/components/schemas/MeasurementPoint'
+        SmileProductionPoint:
+          $ref: '#/components/schemas/SmileProductionPoint'
+        MeasurementAddress:
+          $ref: '#/components/schemas/MeasurementAddress'
+        Meter:
+          $ref: '#/components/schemas/Meter'
+        Adapter:
+          type: object
+          properties:
+            Adapters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Adapter'
+        CommunicationModule:
+          $ref: '#/components/schemas/CommunicationModule'
+        ExecutionMethod:
+          $ref: '#/components/schemas/ExecutionMethod'
+        ElectricalConnection:
+          $ref: '#/components/schemas/ElectricalConnection'
+        ElectricalConnectionAddress:
+          $ref: '#/components/schemas/ElectricalConnectionAddress'
+        Agglomeration:
+          $ref: '#/components/schemas/Agglomeration'
+        Centralization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Centralization'
+        UniversalSupplyPoint:
+          type: array
+          items:
+            $ref: '#/components/schemas/UniversalSupplyPoint'
+        OtherEquipment:
+          $ref: '#/components/schemas/OtherEquipment'
+      required:
+       - Activity
+    Activity:
+      type: object
+      properties:
+        activityGroup:
+          type: string
+          description: Tipo RdA
+        activityProcess:
+          type: string
+          description: Identificativo del Processo FOUR
+        activityService:
+          type: string
+          description: Identificativo del tipo di richiesta (servizio FOUR)
+        activityType:
+          type: string
+          description: Identificativo del tipo di transazione commerciale
+        activitySubtype:
+          type: string
+          description: Tipo lavoro, ovvero specializzazione del tipo di transazione commerciale
+        activityReason:
+          type: string
+          description: Motivo Richiesta Emissione
+        idRequestActivity:
+          type: string
+          description: Identificativo univoco inviato dal richiedente
+        idRequestEstimate:
+          type: string
+          description: Identificativo del preventivo associato
+        idRequestSuspension:
+          type: string
+          description: Identificativo della Sospensione/Distacco (RDDL)
+        idWorkOrderChecking:
+          type: string
+          description: Identificativo della Verifica (RVER)
+        budgetCode:
+          type: string
+          description: Codice budget
+        codEstimateType:
+          type: string
+          description: Codice Tipo Preventivo
+        codMarketType:
+          type: string
+          description: Mercato di riferimento
+        eidSiiDossier:
+          type: string
+          description: Codice Pratica Sistema Informativo Integrato (SII)
+        dtAcquisition:
+          type: string
+          format: date-time
+          description: Data di acquisizione della richiesta
+        dtAppointment:
+          type: string
+          format: date-time
+          description: Data appuntamento
+        dtEffective:
+          type: string
+          format: date-time
+          description: Data decorrenza della richiesta
+        dtScheduleStart:
+          type: string
+          format: date-time
+          description: Data inizio esecuzione lavori
+        dtScheduleEnd:
+          type: string
+          format: date-time
+          description: Data Scadenza Prestazione SGQ
+        dtScheduleEndWfm:
+          type: string
+          format: date
+          description: Data Scadenza Prestazione SGQ per esecuzione sul campo (EMD)
+        flgMasterSocket:
+          type: string
+          description: Flag Presa Principale
+        codInterventionType:
+          type: string
+          description: Tipologia Intervento Richiesto
+        notes:
+          type: string
+          description: Note Commerciali
+        flgIsM2:
+          type: string
+          description: RVER POD di tipo M2
+        pointCodeM2:
+          type: string
+          description: RVER POD del punto M2
+        codCheckingReason:
+          type: string
+          description: Motivazione rich.verifica
+        codCheckingType:
+          type: string
+          description: Tipologia richiedente rich.verifica
+        codCheckingExecutionType:
+          type: string
+          description: Indica la tipologia di esecuzione della verifica
+        flgAppointmentRequested:
+          type: string
+          description: Flag appuntamento cliente
+        eidAppointment:
+          type: string
+          description: Identificativo esterno dell appuntamento
+        codContractTransferType:
+          type: string
+          description: Tipo Voltura
+        codActionType:
+          type: string
+          description: Codice tipo attività da compiere per Del 88/18
+        flgFieldExecution:
+          type: boolean
+      required:
+        - activityType
+        - idRequestActivity
+    FourItaly:
+      type: object
+      properties:
+        fourItalyEvent:
+          type: string
+          description:
+            'Indica l''evento richiesto da FOUR: chiusura o annullamento dell''attività. E'' applicabile solo per RVAR-AL su produttori e RSPR-PR (solo AN). Il tracciato, se ha questi campi per le due attività indicate, non entra in ACQ.'
+          enum:
+          - CH
+          - AN
+    Delegate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nome
+        surname:
+          type: string
+          description: Cognome
+        codDelegateType:
+          type: string
+          description: Tipo di delegato / Testimone
+        codDocumentType:
+          type: string
+          description: Tipo di documento
+        eidDocument:
+          type: string
+          description: Numero del documento
+        issuedBy:
+          type: string
+          description: Rilasciato da
+        dtIssue:
+          type: string
+          format: date
+          description: Data di rilascio
+        dtExpiry:
+          type: string
+          format: date
+          description: Data di scadenza
+        phoneNumber:
+          type: string
+          description: Numero di telefono
+        phoneNumber2:
+          type: string
+          description: Numero di telefono 2
+        phoneNumber3:
+          type: string
+          description: Numero di telefono 3
+        phoneNumber4:
+          type: string
+          description: Numero di telefono 4
+        phoneNumber5:
+          type: string
+          description: Numero di telefono 5
+    MeasurementPoint:
+      type: object
+      properties:
+        pointOfDelivery:
+          type: string
+          description: Point Of Delivery (POD del punto Passivo o del Punto di Scambio M1)
+        pointCode:
+          type: string
+          description: Codice del Punto di misura (old POD)
+        pav:
+          type: string
+          description: Codice necessario al sistema HB per creare la fornitura in anagrafica
+        eidSocket:
+          type: string
+          description: Codice della presa
+        codStreet:
+          type: string
+          description: Codice della via, campo significativo solamente in Spagna
+        codOperationalUnit:
+          type: string
+          description: Unità operativa
+        codTerritorialDivision:
+          type: string
+          description: CFT
+        eneltelOfDelivery:
+          type: string
+          description: Eneltel del Punto Passivo o di Scambio
+        eneltel:
+          type: string
+          description: Eneltel del Punto di Misura
+        flgComplianceStatus:
+          type: string
+          description: Flag Attesa DICO
+        flgIgme:
+          type: string
+          description: Flag IGME
+        flgOnlyInput:
+          type: string
+          description: Flag Sola Immissione
+        measureVoltage:
+          type: integer
+          format: nonNegativeInteger
+          description: Tensione di Misura
+        codMpVoltage:
+          type: string
+        codElectricPhases:
+          type: string
+          description: Fasi elettriche del punto di misura
+        codMeasurementPointType:
+          type: string
+          description: Tipo Punto di Misura
+        powerContractual:
+          type: number
+          format: float
+          description: Potenza contrattuale
+        powerAvailable:
+          type: number
+          format: float
+          description: Potenza disponibile
+        powerAllowance:
+          type: number
+          format: float
+          description: Potenza franchigia
+        powerProductionTitular:
+          type: number
+          format: float
+          description: Potenza di Produzione Nominale
+        powerProductionAllowance:
+          type: number
+          format: float
+          description: Potenza di Produzione Franchigia
+        eidCensimpGroup:
+          type: string
+          description: Codice Gruppo Produzione CENSIMP
+        eidCensimpMeter:
+          type: string
+          description: Codice Misuratore CENSIMP
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        eidMeasurementPoint:
+          type: string
+          description: Codice Punto di Misura (CENSIMP ??)
+        eidProductionSection:
+          type: string
+          description: Codice Sezione di Produzione
+        eidProductionUnit:
+          type: string
+          description: Codice Unità Produttiva
+        associatedPointCode:
+          type: string
+          description: SSPC POD Associato
+        codSspcPointType:
+          type: string
+          description: SSPC Tipo POD SSPC
+        codMeasurementPointFunction:
+          type: string
+        codMeasurementPointTypePower:
+          type: string
+        codEquipmentOwnedUser:
+          type: string
+        codSmileProducerType:
+          type: string
+          description: Tipologia di Produttore codifica verso Smile
+    SmileProductionPoint:
+      type: object
+      properties:
+        powerProductionTitular:
+          type: number
+          format: float
+          description: Potenza Nominale di Produzione (kW)
+        powerProductionAllowance:
+          type: number
+          format: float
+          description: Potenza in Franchigia di Produzione (kW)
+        productionVoltage:
+          type: number
+          format: float
+          description: Tensione di Produzione
+        codProductionPhases:
+          type: string
+          description: Fasi elettriche del punto di produzione
+        codProductionPlantType:
+          type: string
+          description: Chiave sintetica del Tipo Impianto Produzione.
+        flgProductionMeasurementService:
+          type: boolean
+          description: Flag Installazione fatta per Servizio di Misura
+    MeasurementAddress:
+      type: object
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice Istat
+        district:
+          type: string
+          description: Provincia
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        stair:
+          type: string
+          description: Scala
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+        gpsCoordinateX:
+          type: string
+          description: coordinate X
+        gpsCoordinateY:
+          type: string
+          description: coordinate Y
+        nonCanonicalAddress:
+          type: string
+          description: Indirizzo in formato descrittivo
+    Meter:
+      type: object
+      properties:
+        eidBuilder:
+          type: string
+          description: ID del costruttore Censimento dei tipi di Misuratori
+        eidModel:
+          type: string
+          description: ID del modello Censimento dei tipi di Misuratori
+        eidFirmwareVersion:
+          type: string
+          description: ID del firmware Censimento dei tipi di Misuratori
+        builderSerialNumber:
+          type: string
+          description: Matricola fornita dal costruttore
+        cdcInternalConstant:
+          type: integer
+          format: nonNegativeInteger
+          description: Curve di Carico Costante Interna
+        cdcMeasureUnits:
+          type: string
+          description: Curve di Carico Unità di misura
+        class:
+          type: integer
+          format: nonNegativeInteger
+          description: Classe misuratore
+        codDirectionType:
+          type: string
+          description: Tipo di utilizzo M=Mono; B=Bidirez (B per produttori)
+        flgNoPasswordTeleReading:
+          type: string
+          description: Flag mancanza password di telelettura
+        flgPositiveMeasure:
+          type: string
+          description: Verso energia attiva positiva
+        meterCode:
+          type: string
+          description: Codice misuratore
+        meterSerialNumber:
+          type: string
+          description: Matricola misuratore
+        codBrand:
+          type: string
+          description: Marca apparato
+        codModel:
+          type: string
+          description: Modello apparato
+        notes:
+          type: string
+          description: Note
+        password:
+          type: string
+          description: Password del Misuratore
+        plateSerialNumber:
+          type: string
+          description: Numero di serie del Misuratore
+        registersInternalConstant:
+          type: integer
+          format: nonNegativeInteger
+          description: Costante Interna dei Registri
+        registersMeasureUnits:
+          type: string
+          description: Unità di Misura dei Registri
+        technicalContactName:
+          type: string
+          description: Referente Tecnico Nome
+        technicalContactPhone:
+          type: string
+          description: Referente Tecnico Telefono
+        codMeterOwner:
+          type: string
+          description: Proprietario del Misuratore
+        codMeterType:
+          type: string
+          description: Codice tipo misuratore
+        codReasonDh:
+          type: string
+          description: Motivazione comando DH
+        codAccessParameter:
+          type: string
+          description: Codice tipo parametro di accesso
+        codReasonDhValue:
+          type: string
+          description: Motivazione valore comando DH
+        flgForcedKey:
+          type: boolean
+          description: Chiave forzata
+        codForcedKeyReason:
+          type: string
+          description: Motivo forzatura chiave
+        flgPayloadCurvesActive:
+          type: boolean
+          description: Curva di carico attiva
+        codPayloadCurvesType:
+          type: string
+          description: Tipo di curva di carico
+    Adapter:
+      type: object
+      properties:
+        caPrimaryRatio:
+          type: number
+          format: float
+          description: Trasformatore di Corrente Rapporto al Primario
+        caSecondaryRatio:
+          type: number
+          format: float
+          description: Trasformatore di Corrente Rapporto al Secondario
+        kaAmpereRatio:
+          type: number
+          format: float
+          description: Rapporto Trasformazione Ampere
+        vaPrimaryRatio:
+          type: integer
+          format: nonNegativeInteger
+          description: Trasformatore di Tensione Rapporto al Primario
+        vaSecondaryRatio:
+          type: integer
+          format: nonNegativeInteger
+          description: Trasformatore di Tensione Rapporto al Secondario
+        kvVoltageRatio:
+          type: number
+          format: float
+          description: Rapporto Trasformazione Volt
+        codBrand:
+          type: string
+          description: Codice marca dell'apparato
+        codModel:
+          type: string
+          description: Codice modello dell'apparato
+        serialNumber:
+          type: string
+          description: Codice seraiale dell'apparato
+        productionYear:
+          type: string
+          description: Anno di produzione dell'apparato
+        codOwner:
+          type: string
+          description: Proprietario dell'apparato
+        adapterFunctionType:
+          type: string
+          description: Tipo funzione del riduttore(Intensità di corrente/Tensione)
+    CommunicationModule:
+      type: object
+      properties:
+        builder:
+          type: string
+          description: Modulo Comunicazione Costruttore
+        codCommunicationType:
+          type: string
+          description: Modulo Comunicazione Tipo Comunicazione
+        codFrame:
+          type: string
+          description: Modulo Comunicazione Frame
+        modelName:
+          type: string
+          description: Modulo Comunicazione Modello
+        phone:
+          type: string
+          description: Modulo Comunicazione Telefono
+        protocolName:
+          type: string
+          description: Modulo Comunicazione Protocollo di Comunicazione
+        flgExternal:
+          type: string
+          description: Modulo Comunicazione Modem esterno al concentratore
+        flgPstnProtection:
+          type: string
+          description: Modulo Comunicazione Presenza protezione per modulo PSTN
+        ccid:
+          type: string
+          description: Modulo Comunicazione CCID
+        pin:
+          type: string
+          description: Modulo Comunicazione PIN
+        puk:
+          type: string
+          description: Modulo Comunicazione PUK
+        imsi:
+          type: string
+          description: Modulo Comunicazione IMSI
+        codTelcoProvider:
+          type: string
+          description: Modulo Comunicazione Gestore telefonico
+        assigneeName:
+          type: string
+          description: Modulo Comunicazione Assegnatario
+        dtAssign:
+          type: string
+          format: date
+          description: Modulo Comunicazione Data Assegnazione
+        ipv4:
+          type: string
+          description: Modulo Comunicazione IPv4
+        ipv6:
+          type: string
+          description: Modulo Comunicazione IPv6
+        loadingAuthor:
+          type: string
+          description: Modulo Comunicazione Autore caricamento
+        dtLoading:
+          type: string
+          format: date
+          description: Modulo Comunicazione Data caricamento
+    ExecutionMethod:
+      type: object
+      properties:
+        codExecutionScenario:
+          type: string
+          description: Scenario che è stato determinato in FOUR per la gestione di questa
+            WO Activity
+        codEligibilityPowerLine:
+          type: string
+          description: Tipo di idoneità della linea elettrica di bassa tensione (è anche
+            indicata con il termine impianto)
+        codEligibilitySocket:
+          type: string
+          description: Tipo di idoneità della presa
+        codPowerLineNode:
+          type: string
+          description: Tipo di nodo della linea elettrica
+    ElectricalConnection:
+      type: object
+      properties:
+        typeConnRequested:
+          type: string
+          description: Tipo di connessione richiesta
+        subtypeConnRequested:
+          type: string
+          description: Sottotipo connessione richiesta
+        clarificationConnRequested:
+          type: string
+        powerRequested:
+          type: number
+          format: float
+          description: Potenza richiesta
+        powerAssigned:
+          type: number
+          format: float
+          description: Potenza assegnata
+        eidNetworkManager:
+          type: string
+          description: Impresa distributrice
+        eidDevice:
+          type: string
+          description: Codice dispositivo
+        eidTechnicalPaperwork:
+          type: string
+          description: Codice avviso di servizio
+        eidPcr:
+          type: string
+          description: Codice PCR
+        flgPcrStatus:
+          type: boolean
+          description: Indica se il PCR è in servizio o meno
+        flgRequiresLegalization:
+          type: boolean
+        workDescription:
+          type: string
+          description: Dettaglio del lavoro da eseguire
+        pointConexDescription:
+          type: string
+          description: Dettagli sul punto e sulla rete di distribuzione associati
+        codTerritorialDivision:
+          type: string
+          description: Codice divisione territoriale
+        eidLocation:
+          type: integer
+          format: int64
+          description: Codice utilizzato per raggruppare più forniture dello stesso indirizzo
+        coordinatesLocationLat:
+          type: string
+          description: Coordinate - latitudine
+        coordinatesLocationLong:
+          type: string
+          description: Coordinate - longitudine
+        eidCentralization:
+          type: string
+        installationType:
+          type: string
+          description: Tipo di installazione
+        actionType:
+          type: string
+          description: Tipo di intervento effettuato
+        regulatoryPurpose:
+          type: string
+    ElectricalConnectionAddress:
+      type: object
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice Istat
+        district:
+          type: string
+          description: Provincia
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        stair:
+          type: string
+          description: Scala
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+        tips:
+          type: string
+          description: Informazioni aggiuntive per identificare l'indirizzo
+        tipsType:
+          type: string
+          description: Tipo di informazioni addizionali
+        tipsSupply:
+          type: string
+          description: Informazioni addizionali che permettono di identificare la fornitura
+    Agglomeration:
+      type: object
+      description: 'Finca - Agglomerato civico (es. condominio, hotel, raggruppamento di appartamenti per una fornitura in BT, centro commerciale, ecc.)'
+      properties:
+        eidAgglomeration:
+          type: string
+          description: Codice agglomerato civico (finca)
+        street:
+          type: string
+          description: Via
+        addressNumber:
+          type: string
+          description: Numero civio
+        tips:
+          type: string
+          description: Informazioni aggiuntive per identificare l'indirizzo
+        tipsType:
+          type: string
+          description: Tipo di informazioni addizionali
+        codTerritorialDivision:
+          type: string
+          description: Codice divisione terririale
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del comune
+        prefix:
+          type: string
+          description: Toponimo
+        municipality:
+          type: string
+          description: Comune
+        district:
+          type: string
+          description: Provincia
+        region:
+          type: string
+          description: Regione
+        nation:
+          type: string
+          description: Stato (nazione)
+        codStreet:
+          type: string
+          description: Codice via
+        zipCode:
+          type: string
+          description: CAP
+    Centralization:
+      type: object
+      description: 'Centralizzazione - Per ciascun PCR, ha una molteplicità uguale o superiore a 1'
+      properties:
+        eidAgglomeration:
+          type: string
+        eidPcr:
+          type: string
+          description: Codice del punto di connessione alla rete (PCR)
+        pcrType:
+          type: string
+          description: Tipo del punto di connessione alla rete (PCR)
+        installationType:
+          type: string
+          description: Tipo installazione
+        eidCentralization:
+          type: string
+          description: Codice centralizzazione
+        location:
+          type: string
+          description: Località
+        centralizationType:
+          type: string
+          description: Tipo di centralizzazione
+        centralizationKey:
+          type: string
+          description: Chiave della centralizzazione
+        tipsOfAccess:
+          type: string
+          description: Informazioni aggiuntive per l'accesso
+        section:
+          type: string
+          description: Sezione del cavo principale
+        externalDiameter:
+          type: string
+          description: Diametro esterno
+        neutralSection:
+          type: string
+          description: Sezione del neutro
+        voltageType:
+          type: string
+          description: Tipo di tensione
+        voltageLevel:
+          type: string
+          description: Livello di tensione
+    UniversalSupplyPoint:
+      type: object
+      description: 'CUPS - Fornitura commerciale logica'
+      properties:
+        eidAgglomeration:
+          type: string
+          description: Codice agglomerato
+        eidCentralization:
+          type: string
+          description: Codice centralizzazione
+        codSupplyPoint:
+          type: string
+          description: Codice identificativo del CUPS
+        stair:
+          type: string
+          description: Scala
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        tipsOfSupply:
+          type: string
+          description: Informazioni aggiuntive sulla fornitura
+        cdVoltage:
+          type: string
+          description: Tensione del CUPS
+        cdMaxPower:
+          type: string
+          description: Potenza massima permessa
+        cdVoltageType:
+          type: string
+          description: Tipo di tensione
+        cdExtensionPower:
+          type: string
+          description: Estensione di potenza
+        cdAccessPower:
+          type: string
+          description: Potenza di accesso
+        cdConcertedPower:
+          type: string
+          description: Potenza concordata
+        cdContractualPower:
+          type: string
+          description: Potenza contrattuale
+    OtherEquipment:
+      type: object
+      description: Dispositivo associato al CUPS
+      properties:
+        serialNumber:
+          type: string
+          description: Numero seriale del dispositivo
+        codBrand:
+          type: string
+          description: Marca del dispositivo
+        codModel:
+          type: string
+          description: Modello del dispositivo
+        codEquipmentType:
+          type: string
+          description: Tipo di dispositivo (es. misuratore, riduttore, modem, ecc.)
+    Performance:
+      type: object
+      description: Prestazione commerciale
+      properties:
+        codPerformanceType:
+          type: string
+          description: Tipo di prestazione
+        codWorkComplexityType:
+          type: string
+          description: Tipo Complessità Lavoro
+        dtOpenPerformance:
+          type: string
+          format: date-time
+          description: Data Apertura Prestazione SGQ
+        flgValidCse:
+          type: string
+          description: Prestazione soggetta a Carta del Servizio Elettrico
+        eidPerformance:
+          type: string
+          description: Codice di rintracciabilità
+        dtPerformanceDeadline:
+          type: string
+          format: date-time
+          description: Data Scadenza Prestazione SGQ
+        dtPerformanceDeadlineWfm:
+          type: string
+          format: date
+          description: Data Scadenza Prestazione SGQ per lavori eseguiti sul campo
+    Supply:
+      type: object
+      description: Fornitura
+      properties:
+        codConnectionType:
+          type: string
+          description: Tipo di connessione
+        codEnergyUse:
+          type: string
+          description: Uso energia
+        codPayloadCurvesType:
+          type: string
+          description: Tipo curve di carico
+        codSocketGroup:
+          type: string
+          description: Codice gruppo fatturazione campo obsoleto
+        dtSeasonalSupplyEnd:
+          type: string
+          format: date
+          description: Data fine fornitura
+        dtSeasonalSupplyStart:
+          type: string
+          format: date
+          description: Data inizio fornitura
+        flgElevator:
+          type: string
+          description: Flag sollevamento persone
+        flgFlatRateBilling:
+          type: string
+          description: Fornitura a Forfait
+        flgMeasurementService:
+          type: string
+          description: Flag Installazione fatta per Servizio di Misura
+        flgPowerMeasurement:
+          type: string
+          description: Flag potenza / Servizio di misura potenza
+        flgSeasonalSupply:
+          type: string
+          description: Flag stagionale ricorrente
+        flgTemporaryExercise:
+          type: string
+          description: Esercizio Transitorio
+        numberOfTimeSlot:
+          type: string
+          description: Tipo riprogrammazione installato / numero di fasce orarie
+        eidTariff:
+          type: string
+          description: Codice Tariffa
+        supplyVoltage:
+          type: integer
+          format: nonNegativeInteger
+          description: Tensione
+        codSupplyVoltagePhase:
+          type: string
+        codVoltageType:
+          type: string
+          description: Livello Tensione
+        codElectricPhases:
+          type: string
+          description: Fasi elettriche della fornitura
+        flgFraudPredisposition:
+          type: string
+          description: flag predisposizione frode
+        eidAgglomerated:
+          type: string
+          description: Codice agglomerato
+        eidPointService:
+          type: string
+          description: Codice punto di servizio
+        eidIndividualDerivation:
+          type: string
+        numberMandatoryPoints:
+          type: integer
+    SupplyAddress:
+      type: object
+      description: Indirizzo della fornitura
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice Istat
+        district:
+          type: string
+          description: Provincia
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        stair:
+          type: string
+          description: Scala
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+        tips:
+          type: string
+        tipsType:
+          type: string
+        tipsOfSupply:
+          type: string
+        gpsCoordinateX:
+          type: string
+          description: coordinate X
+        gpsCoordinateY:
+          type: string
+          description: coordinate Y
+        nonCanonicalAddress:
+          type: string
+          description: Indirizzo in formato descrittivo
+    Contract:
+      type: object
+      description: Contratto
+      properties:
+        emergencyPlanPhoneNumber:
+          type: string
+          description: Telefono cellulare preavviso personalizzato pesse
+        flgEmergencyPlanSelfCertification:
+          type: string
+          description: Autocertificazione di acquisizione da cliente liberatoria responsabilita
+            nei confronti di e per mancato avviso pesse
+        flgLhaSelfCertification:
+          type: string
+          description: Autocertificazione di acquisizione da cliente certificazione asl
+        flgUnplugging:
+          type: string
+          description: Indica se la fornitura può essere disalimentata (True) oppure no
+            (False)
+        codUnpluggingType:
+          type: string
+          description: Codice categoria non disalimentabilità
+        codCommoditiesSector:
+          type: string
+          description: Settore industriale / merceologico
+        codConnectionContractType:
+          type: string
+          description: Identificativo contratto di connessione
+        codContractType:
+          type: string
+          description: Tipologia di contratto (uso)
+        eidDispatching:
+          type: string
+          description: Identificativo del contratto di dispacciamento
+        distributionCompany:
+          type: string
+          description: Gestore Rete
+        codInstallationServiceType:
+          type: string
+          description: Tipo di servizio di installazione
+        dtStartExerciseRegulation:
+          format: date
+          description: Data inizio del Regolamento di Esercizio
+        eidExerciseRegulation:
+          type: string
+          description: Codice Regolamento di esercizio
+        powerExerciseRegulation:
+          type: number
+          format: float
+          description: Potenza immessa del regolamento di esercizio
+        responsibleMeasureMngmt:
+          type: string
+          description: Responsabile Raccolta, Validazione e Registrazione Misure
+        responsibleMeterMaintenance:
+          type: string
+          description: Responsabile Installazione e Manutenzione Misuratore
+        eidTrader:
+          type: string
+          description: ID del Trader
+        vatDistributionCompany:
+          type: string
+          description: P.IVA del Distributore
+        vatTrader:
+          type: string
+          description: P.IVA del Gestore (Trader)
+        eidTraderDossier:
+          type: string
+          description: Codice pratica del Gestore (Trader)
+        eidWarranter:
+          type: string
+        codContract:
+          type: string
+        dtChangeContract:
+          type: string
+          format: date
+        codContractVersion:
+          type: string
+        codTariffAtr:
+          type: string
+        codBillingFrequency:
+          type: string
+        codPowerControlMode:
+          type: string
+        codSupplyVoltageCnt:
+          type: string
+        codDistributionCompany:
+          type: string
+        relatedPointOfDelivery :
+          type: string
+        useHourNumber:
+          type: string
+        directBuy:
+          type: string
+        codLossesCompData:
+          type: string
+        titularAdapterPower:
+          format: float
+        agreedConsumptPercentage:
+          type: number
+          format: float
+        SelfConsumption:
+          $ref: '#/components/schemas/SelfConsumption'
+    SelfConsumption:
+      type: object
+      description: Informazioni contrattuali di autoconsumo
+      properties:
+        selfConsumptionType:
+          type: string
+        dtSelfConsumptionActivation:
+          type: string
+        accessTollPointOfDelivery:
+          type: string
+        auxServicesPointOfDelivery:
+          type: string
+        fake1PointOfDelivery:
+          type: string
+        fake2PointOfDelivery:
+          type: string
+        selfConsumptionGroup:
+          type: string
+        distributionCoefficient:
+          type: string
+        closeInstallation:
+          type: string
+        schemeType:
+          type: string
+        energyType:
+          type: string
+        notes:
+          type: string
+        eidSelfConsumption:
+          type: string
+    DisplayEnable:
+      type: object
+      description: 'Informazioni visualizzabili sul display del misuratore - Usato in Italia per lavori (telegestiti) di programmazione del misuratore (RPMI)'
+      properties:
+        flgTimeSlot:
+          type: string
+          description: Visualizzazione fasce orarie
+        flgCustomerCode:
+          type: string
+          description: Visualizzazione del codice cliente
+        flgTraderName:
+          type: string
+          description: Visualizzazione del nome del Trader
+        flgTraderPhoneNumber:
+          type: string
+          description: Visualizzazione del telefono del Trader
+        flgContractStartDate:
+          type: string
+          description: Visualizzazione data inizio validità contratto
+        flgFreezingDate:
+          type: string
+          description: Visualizzazione della data di inizio del periodo di freezing
+        flgMessages:
+          type: string
+          description: Visualizzazione dei messaggi
+    DisplayConfiguration:
+      type: object
+      description: 'Configurazione display - Usato in Italia per lavori (telegestiti) di programmazione del misuratore (RPMI)'
+      properties:
+        eidCustomer:
+          type: string
+          description: codice cliente
+        traderName:
+          type: string
+          description: nome del Trader
+        traderPhone:
+          type: string
+          description: telefono del Trader
+        contractStartDate:
+          type: string
+          description: data inizio validità contratto (gg/mm/aaaa)
+        freezingDate:
+          type: string
+          description: data di inizio del periodo di freezing (gg/mm/aaaa)
+        message1:
+          type: string
+          description: Messaggio da visualizzare 1
+        message2:
+          type: string
+          description: Messaggio da visualizzare 2
+        message3:
+          type: string
+          description: Messaggio da visualizzare 3
+        message4:
+          type: string
+          description: Messaggio da visualizzare 4
+        message5:
+          type: string
+          description: Messaggio da visualizzare 5
+    WeeklyTariff:
+      type: object
+      description: 'Fasce tariffarie settimanali - In Italia introdotte con la delibera 88/18'
+      properties:
+        mondayProfile:
+          type: string
+          description: Fasce orarie per il lunedì
+        tuesdayProfile:
+          type: string
+          description: Fasce orarie per il martedì
+        wednesdayProfile:
+          type: string
+          description: Fasce orarie per il mercoledì
+        thursdayProfile:
+          type: string
+          description: Fasce orarie per il giovedì
+        fridayProfile:
+          type: string
+          description: Fasce orarie per il venerdì
+        saturdayProfile:
+          type: string
+          description: Fasce orarie per il sabato
+        sundayProfile:
+          type: string
+          description: Fasce orarie per la domenica
+        holidayProfile:
+          type: string
+          description: Fasce orarie per i giorni festivi
+    Customer:
+      type: object
+      description: Cliente
+      properties:
+        eidCustomer:
+          type: string
+          description: Codice Cliente rilasciato dal Trader
+        name:
+          type: string
+          description: Nome
+        surname:
+          type: string
+          description: Cognome
+        companyName:
+          type: string
+          description: Ragione sociale
+        taxCode:
+          type: string
+          description: Codice fiscale
+        vatNumber:
+          type: string
+          description: Partita iva
+        phoneNumber:
+          type: string
+          description: Telefono
+        faxNumber:
+          type: string
+          description: Fax
+        email:
+          type: string
+          description: Email
+        certifiedEmail:
+          type: string
+          description: Email Certificata PEC
+        codCustomerCategory:
+          type: string
+          description: Categoria Cliente
+        codCustomerType:
+          type: string
+          description: 'Tipo di Cliente: F-Fisico, G-Giuridico'
+        dtBirth:
+          type: string
+          format: date
+          description: Data di nascita
+        birthPlace:
+          type: string
+          description: Luogo di nascita
+        flgInternationalTaxCode:
+          type: string
+          description: Indica se il Codice Fiscale inserito è straniero (True) oppure italiano
+            (False)
+        codDocumentType:
+          type: string
+        codLanguage:
+          type: string
+        codAddressType:
+          type: string
+        eidUniqueCustomer:
+          type: string
+        otherDocumentId:
+          type: string
+    CustomerAddress:
+      type: object
+      description: Indirizzo del cliente
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        careOf:
+          type: string
+          description: Presso
+        codIstat:
+          type: string
+          description: Codice Istat
+        district:
+          type: string
+          description: Provincia
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        stair:
+          type: string
+          description: Scala
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        region:
+          type: string
+          description: Regione
+        tips:
+          type: string
+          description: Informazioni aggiuntive per identificare l'indirizzo
+        tipsType:
+          type: string
+          description: Tipo di informazioni addizionali
+        gpsCoordinateX:
+          type: string
+          description: coordinate X
+        gpsCoordinateY:
+          type: string
+          description: coordinate Y
+        nonCanonicalAddress:
+          type: string
+    EstimateLot:
+      type: object
+      description: Informazioni testata del lotto di preventivi
+      properties:
+        codElectrificationGlobal:
+          type: string
+          description: Tipo elettrificazione generale della richiesta
+        idRequestLotting:
+          type: string
+          description: Identificativo della richiesta
+        eidLottingName:
+          type: string
+          description: Identificativo Lottizzazione
+        idRequestRework:
+          type: string
+          description: Non valorizzato o pari a 0 nel primo invio, incrementato negli invii
+            successivi per rilavorazione in seguito ad integrazione
+    EstimateItem:
+      type: object
+      description: Elemento lotto preventivi
+      properties:
+        codContractType:
+          type: string
+          description: Tipologia di contratto (uso) associato al lotto
+        codElectrification:
+          type: string
+          description: Tipo Elettrificazione associata della fornitura
+        lotNumber:
+          type: string
+          description: Identificativo del lotto inserito in input, un num_lotto può essere
+            associatp a più ID_LOTTO_TECN
+        powerAllowance:
+          type: number
+          format: float
+          description: Potenza Franchigia
+        powerAvailable:
+          type: number
+          format: float
+          description: Potenza disponibile
+        powerContractual:
+          type: number
+          format: float
+          description: Potenza contrattuale
+        idRequestSupply:
+          type: string
+          description: Identificativo della singola fornitura presente nella lottizzazione
+        electricPhases:
+          type: string
+          description: Fase. Dedotto dall'attributo ID_LIV_TENSIONE, della fornitura, secondo
+            la seguente regola. BM = FN,  BT=3FN,  MT=3F, AT=3F
+        codVoltageLevelType:
+          type: string
+          description: Livello tensione
+        addressNumber:
+          type: string
+          description: Numero civico
+        district:
+          type: string
+          description: Provincia
+        locality:
+          type: string
+          description: Località
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Nazione
+        prefix:
+          type: string
+          description: Toponimo
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: CAP
+    Producer:
+      type: object
+      description: Informazioni sul produttore
+      properties:
+        name:
+          type: string
+          description: Nome
+        surname:
+          type: string
+          description: Cognome
+        companyName:
+          type: string
+          description: Ragione sociale
+        taxCode:
+          type: string
+          description: Codice fiscale
+        vatNumber:
+          type: string
+          description: Partita iva
+        nationalVatNumber:
+          type: string
+          description: Partita iva nazione
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        phoneNumber:
+          type: string
+          description: Telefono
+        faxNumber:
+          type: string
+          description: Fax
+        email:
+          type: string
+          description: Email
+        certifiedEmail:
+          type: string
+          description: Email Certificata PEC
+        codAttorneyType:
+          type: string
+          description: Tipo rappresentante (Procuratore / Rappresentante legale)
+        attorneyName:
+          type: string
+          description: Nome (Procuratore / Rappresentante legale)
+        attorneySurname:
+          type: string
+          description: Cognome (Procuratore / Rappresentante legale)
+        attorneyTaxCode:
+          type: string
+          description: Codice fiscale (Procuratore / Rappresentante legale)
+    ProducerAddress:
+      type: object
+      description: Indirizzo del produttore
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice ISTAT
+        district:
+          type: string
+          description: Provincia
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        stair:
+          type: string
+          description: Scala
+        floor:
+          type: string
+          description: Piano
+        flatNumber:
+          type: string
+          description: Interno
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+    ProducerAgent:
+      type: object
+      description: Mandatario con rappresentanza
+      properties:
+        name:
+          type: string
+          description: Nome
+        surname:
+          type: string
+          description: Cognome
+        companyName:
+          type: string
+          description: Ragione sociale
+        taxCode:
+          type: string
+          description: Codice fiscale
+        vatNumber:
+          type: string
+          description: Partita iva
+        nationalVatNumber:
+          type: string
+          description: Partita iva nazione
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        phoneNumber:
+          type: string
+          description: Telefono
+        faxNumber:
+          type: string
+          description: Fax
+        email:
+          type: string
+          description: Email
+        certifiedEmail:
+          type: string
+          description: Email Certificata PEC
+        codAttorneyType:
+          type: string
+          description: Tipo rappresentante (Procuratore / Rappresentante legale)
+        attorneyName:
+          type: string
+          description: Nome (Procuratore / Rappresentante legale)
+        attorneySurname:
+          type: string
+          description: Cognome (Procuratore / Rappresentante legale)
+        attorneyTaxCode:
+          type: string
+          description: Codice fiscale (Procuratore / Rappresentante legale)
+    ProducerAgentAddress:
+      type: object
+      description: Indirizzo del mandatario con rappresentanza
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice ISTAT
+        district:
+          type: string
+          description: Provincia
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        stair:
+          type: string
+          description: Scala
+        floor:
+          type: string
+          description: Piano
+        flatNumber:
+          type: string
+          description: Interno
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+    ProductionPlant:
+      type: object
+      description: Impianto di produzione
+      properties:
+        certificateVersion:
+          type: string
+          description: Versione Attestato
+        codProductionPlantType:
+          type: string
+          description: 'Chiave sintetica di accesso alla tipologica dei valori ammissibili. Per i campi dei Produttori: Identifica univocamente la combinazione di Tipo Impianto Produzione, Tipo Generazione, Tipo Fonte Rinnovabile, Codice GSE'
+        dtActivation:
+          type: string
+          format: date
+          description: Data attivazione Impianto
+        dtCessation:
+          type: string
+          format: date
+          description: Data cessazione Impianto
+        dtSwornCertificateEnd:
+          type: string
+          format: date
+          description: Data fine tariffa perizia asseverata
+        dtSwornCertificateStart:
+          type: string
+          format: date
+          description: Data inizio tariffa perizia asseverata
+        dtUnifilarSchemeEnd:
+          type: string
+          format: date
+          description: Data fine validità schema
+        dtUnifilarSchemeStart:
+          type: string
+          format: date
+          description: Data inizio validità schema
+        eidExciseFirm:
+          type: string
+          description: Codice ditta accise
+        flgExciseFirmDummy:
+          type: string
+          description: Codice ditta accise Flag fittizio
+        flgExciseFirmMandatory:
+          type: string
+          description: Codice ditta accise Flag obbligatorio
+        flgSwornCertificate:
+          type: string
+          description: Perizia Asseverata Flag
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        eidSaprProductionPlant:
+          type: string
+          description: Codice Impianto SAPR
+        plantName:
+          type: string
+          description: Nome Impianto
+        masterPointOfDelivery:
+          type: string
+          description: Point Of Delivery del Punto di Scambio dell'impianto
+        powerProductionSworn:
+          type: number
+          format: float
+          description: Potenza di Produzione Asseverata
+        powerProductionTitular:
+          type: number
+          format: float
+          description: Potenza di Produzione Nominale
+        eidUnifilarScheme:
+          type: string
+          description: Identificativo dello Schema Unifilare
+    ProductionPlantAddress:
+      type: object
+      description: Indirizzo dell'impianto di produzione
+      properties:
+        addressNumber:
+          type: string
+          description: Numero civico
+        codIstat:
+          type: string
+          description: Codice ISTAT
+        district:
+          type: string
+          description: Provincia
+        flatNumber:
+          type: string
+          description: Interno
+        floor:
+          type: string
+          description: Piano
+        locality:
+          type: string
+          description: Utilizzato per specificare una località o frazione all'interno del
+            comune
+        municipality:
+          type: string
+          description: Comune
+        nation:
+          type: string
+          description: Stato (nazione)
+        prefix:
+          type: string
+          description: Toponimo
+        stair:
+          type: string
+          description: Scala
+        street:
+          type: string
+          description: Via
+        zipCode:
+          type: string
+          description: Cap
+        region:
+          type: string
+          description: Regione
+        careOf:
+          type: string
+          description: Presso
+    ProductionSection:
+      type: object
+      description: Sezione dell'impianto di produzione
+      properties:
+        dtActivation:
+          type: string
+          format: date
+          description: Data attivazione Sezione
+        dtCessation:
+          type: string
+          format: date
+          description: Data cessazione Sezione
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        pvSectionNumber:
+          type: number
+          format: float
+          description: Numero progressivo della Sezione Fotovoltaica
+        eidProductionSection:
+          type: string
+          description: Codice Sezione di Produzione
+        powerProductionTitular:
+          type: number
+          format: float
+          description: Potenza di Produzione Nominale
+        eidProductionUnit:
+          type: string
+          description: Codice Unità Produttiva
+    ProductionUnit:
+      type: object
+      description: Unità dell'impianto di produzione
+      properties:
+        codConfiguration:
+          type: string
+          description: Tipo di configurazione dell'UP (S-Semplice / C-Complessa)
+        codIntakeCondition:
+          type: string
+          description: Tipo di Regime Immissione (CT-Cessione Totale / CP-Cessione Parziale
+            / SP-Scambio sul Posto)
+        dispatchingUser:
+          type: string
+          description: Utente Dispacciamento (ML / GSE)
+        dtActivation:
+          type: string
+          format: date
+          description: Data attivazione Unità Produttiva
+        dtAlgorithmEnd:
+          type: string
+          format: date
+          description: Data fine validità Algoritmo
+        dtAlgorithmStart:
+          type: string
+          format: date
+          description: Data inizio validità Algoritmo
+        dtCessation:
+          type: string
+          format: date
+          description: Data cessazione Unità Produttiva
+        flgAsd15Minute:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag 15 minuti
+        flgAsdFixedCorrection:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag Correzione fissa energia
+        flgAsdLumpSumCorrection:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag Correzione a forfait energia
+        flgAsdStructure:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag montante
+        flgAsdTransformationLoss:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag Coefficiente perdita trasformatore
+        flgAsdTransformationTot:
+          type: string
+          description: Prelievo Servizi Ausiliari Flag monte trasformatore
+        powerProductionIntake:
+          type: number
+          format: float
+          description: Potenza di Produzione Immissione
+        eidProductionUnitMeasure:
+          type: string
+          description: Codice Misura Unità Produttiva
+        numNetworkConnection:
+          type: integer
+          format: nonNegativeInteger
+          description: Numero Connessioni di rete
+        eidCensimpProductionPlant:
+          type: string
+          description: Codice Impianto CENSIMP
+        intakeVirtualPointAlgorithm:
+          type: string
+          description: Algoritmo Punto Virtuale di Immissione
+        eidIntakeVirtualPoint:
+          type: string
+          description: Codice Punto Virtuale di Immissione
+        withdrawalVirtualAlgorithm:
+          type: string
+          description: Algoritmo Punto Virtuale di Produzione
+        eidWithdrawalVirtualPoint:
+          type: string
+          description: Codice Punto Virtuale di Produzione
+        powerProductionTitular:
+          type: string
+          description: Potenza di Produzione Nominale
+        transformationLossCoefficent:
+          type: number
+          format: float
+          description: Coefficiente perdita trasformatore
+        eidProductionUnit:
+          type: string
+          description: Codice Unità Produttiva
+    ProductionSspc:
+      type: object
+      description: Sistema semplice di produzione e consumo
+      properties:
+        eidProductionSspc:
+          type: string
+          description: Codice SSPC
+        flgSeu:
+          type: string
+          description: Qualifica SEU
+        codSspcType:
+          type: string
+          description: Tipo SSPC (Sistema Semplice di Produzione e Consumo)
+    Period:
+      type: object
+      description: 'Informazioni sulle potenza contrattate nelle varie fasce orarie (massimo 6)'
+      properties:
+        powerContractualPeriod1:
+          type: number
+          format: float
+        powerContractualPeriod2:
+          type: number
+          format: float
+        powerContractualPeriod3:
+          type: number
+          format: float
+        powerContractualPeriod4:
+          type: number
+          format: float
+        powerContractualPeriod5:
+          type: number
+          format: float
+        powerContractualPeriod6:
+          type: number
+          format: float
+  securitySchemes:
+    platformsecurity:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'https://apim-all-in-one-310-service.glin-ap31312plw2apm-dev-platform-namespace:8243/authorize'
+          scopes:
+            'read:resources': read resource
